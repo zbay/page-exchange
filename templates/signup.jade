@@ -1,4 +1,23 @@
 include ./partials/__header.jade
 include ./partials/__navbar.jade
 include ./partials/__jumbotron.jade
-div Testing signup!!
+if error
+  include ./partials/__error.jade
+  mixin errorDisplay(error)
+form#signupform(method='POST')
+  label
+    | Name
+    br
+    input(type='text', name='name')
+  br
+  label
+    | Email
+    br
+    input(type='text', name='email')
+  br
+  label
+    | Password
+    br
+    input(type='password', name='password')
+  br
+  input(type='submit', value='Sign Up')

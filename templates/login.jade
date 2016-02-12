@@ -1,4 +1,22 @@
 include ./partials/__header.jade
 include ./partials/__navbar.jade
 include ./partials/__jumbotron.jade
-div Testing Login!
+if error
+  include ./partials/__error.jade
+  mixin errorDisplay(error)
+if success
+  include ./partials/__success.jade
+  mixin successDisplay(success)
+form#loginform(method="POST")
+  label
+    | Email
+    br
+    input(type='text', name='email')
+  br
+  label
+    | Password
+    br
+    input(type='password', name='password')
+    br
+  br
+  input(type='submit', value='Log In')

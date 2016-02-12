@@ -5,17 +5,19 @@ module.exports = function(app) {
     User = mongoose.model("User");
     
 app.get("/signup", function(req, res){
+    req.session.errorMessage = null;
+    req.session.successMessage = null;
 	if(!req.session.isLoggedIn){
-		res.render('signup', {});
+		res.render('signup');
 	}
 	else{
-		 res.render("dashboard", {loggedIn: true});
+		 res.redirect("/dashboard");
 	}
 });
 
 app.post('/signup', function(req, res){ //submit new account info
 	if(req.session.isLoggedIn){
-		res.render("dashboard", {loggedIn: true});
+		res.redirect("/dashboard");
 	}
 else{
   var name = req.body.name;
@@ -31,7 +33,8 @@ else{
    	{
    User.findOne({"email": email}).lean().exec(function(findErr, data){
    if(!findErr){
-   res.render("login");
+    req.session.successMessage = "Account successfully created!"; 
+   res.redirect("/login");
    	}
    	else{
    		res.render("signup", {error:findErr});

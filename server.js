@@ -7,7 +7,7 @@ var express = require('express');
 var app = express();
 var mongo = require('mongodb');
 var bodyParser = require('body-parser');
-var routes = require('./routes');
+var routes = require('./controllers');
 var session = require('client-sessions');
 var dotenv = require('dotenv').load();
 
