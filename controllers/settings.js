@@ -7,9 +7,7 @@ module.exports = function(app) {
     app.get("/settings", requireLogin, function(req, res){
             User.findOne({"_id": req.session.sessionID}, function(err, doc){
                 if(doc && !err){
-                    console.log(doc.phone);
-                     res.render("settings", {loggedIn:true, userPhone: doc.phone, userCity: doc.city, userRegion: doc.region,
-                     userEmail: doc.email});
+                     res.render("settings", {userPhone: doc.phone, userCity: doc.city, userRegion: doc.region, userEmail: doc.email});
                 }
             });
     });
@@ -35,7 +33,6 @@ module.exports = function(app) {
   	if(doc && !err && newEmail.match(emailRegex) && newPassword.length > 6 && bcrypt.compareSync(oldPassword, hashedPassword)){
   		var userID = doc._id;
   		User.update({"_id": req.session.sessionID}, {"$set": {"password": bcrypt.hashSync(newPassword, 10), "email": newEmail}}, function(err, data){
-  		    console.log(data);
   			if(!err){
   					res.send({"success": "Email/password info successfully updated!"});
   			}

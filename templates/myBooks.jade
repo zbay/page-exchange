@@ -1,40 +1,40 @@
 include ./partials/__header.jade
-include ./partials/__navbar.jade
+include ./partials/__navbarLoggedIn.jade
 include ./partials/__jumbotron.jade
 
 h3 My Books
 
-table
+table#bookTable
     tr
-        th Title
-        th Author
-        th Description
-        th Delete?
+      th Title
+      th Author
+      th Description
+      th Delete?
     each book in books
         tr
-            td= book.title
-            td= book.author
-            td= book.description
-            td
-                button#deleteBook(name="deleteID" value=book.id) X
+          td= book.title
+          td= book.author
+          td= book.description
+          td
+            button.deleteBookButton(name="deleteID" value=book.id) X
 
 h3 Add a book to your catalog
 
-form#newBookForm(method="POST")
-  label
-    | Title
-    br
-    input(type='text', name='title')
+label
+  | Title
   br
-  label
-    | Author
-    br
-    input(type='text', name='author')
-    br
-  label
-    | Description (optional)
-    br
-    input(type='text' name='description')
+  input(type='text', name='title')
+br
+label
+  | Author
   br
-  input(type='submit', value='Add Book')
-    
+  input(type='text', name='author')
+  br
+br
+label
+  | Description (optional)
+  br
+  input(type='text' name='description')
+br
+input#addBookButton(type='submit', value='Add Book')
+script(src="/static/js/ajax/myBooksAJAX.js")

@@ -5,7 +5,7 @@ var User = require(process.cwd() + "/dbmodels/user.js"); User = mongoose.model("
 module.exports = function(app) {
     app.get("/login", function(req, res){
     if(req.session.isLoggedIn){
-      res.render("dashboard", {loggedIn: true, success: req.session.successMessage});
+      res.redirect("dashboard");
     }
     else{
       res.render("login");
@@ -21,7 +21,6 @@ module.exports = function(app) {
   	if(!err && doc != null){
   		var hashedPassword = doc.password;
   		if(bcrypt.compareSync(password, hashedPassword)){
-  		    console.log("Logged in!");
   		    req.session.isLoggedIn = true;
   			req.session.sessionID = doc._id;
   		res.redirect("/dashboard");
