@@ -1,10 +1,6 @@
 module.exports = function(app) {
-    app.get("/dashboard", function(req, res){
-        if(!req.session.isLoggedIn){
-            res.redirect("/");
-        }
-        else{
-            res.render("dashboard", {loggedIn: true}); 
-        }
+    var requireLogin = require(process.cwd() + "/controllers/controlHelpers/requireLogin.js");
+    app.get("/dashboard", requireLogin, function(req, res){
+            res.render("dashboard", {loggedIn: true});
     });
 }
