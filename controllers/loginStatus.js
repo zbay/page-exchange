@@ -23,7 +23,6 @@ module.exports = function(app) {
   		if(bcrypt.compareSync(password, hashedPassword)){
   		    console.log("Logged in!");
   		    req.session.isLoggedIn = true;
-  			req.session.sessionEmail = email;
   			req.session.sessionID = doc._id;
   		res.redirect("/dashboard");
   		}
@@ -36,4 +35,9 @@ module.exports = function(app) {
     }
   });
     });
+app.get("/logout", function(req, res){
+  req.session.isLoggedIn = false;
+  req.session.sessionID = null;
+  res.redirect("/");
+});
 }

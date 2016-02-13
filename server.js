@@ -30,6 +30,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   duration: 30 * 60 * 1000,
   activeDuration: 5 * 60 * 1000,
+  isLoggedIn: false
 }));
 
 app.set('view engine', 'jade');

@@ -1,0 +1,49 @@
+include ./partials/__header.jade
+include ./partials/__navbar.jade
+include ./partials/__jumbotron.jade
+if error
+  include ./partials/__error.jade
+  mixin errorDisplay(error)
+if success
+  include ./partials/__success.jade
+  mixin successDisplay(success)
+h3 Optional Profile Info
+form#profileForm(method="POST")
+  label
+    | City
+    br
+    input(type='text', name='city' value=userCity)
+  br
+  label
+    | State or Province or Country
+    br
+    input(type='text', name='region' value=userRegion)
+    br
+    label
+    | Phone Number
+    br
+    input(type='text', name='phoneNumber' value=userPhone)
+    br
+  br
+  input(type="hidden", name="formType", value="optional")
+  input(type='submit', value='Save changes')
+br
+h3 Change Email and/or Password
+form#passwordForm(method="POST")
+  label
+  | Email
+  br
+  input(type="email" name="email" value=userEmail)
+  br
+  label
+  | Old Password
+  br
+  input(type="password" name="oldPassword")
+  br
+  label
+  | New Password
+  br
+  input(type="password" name="newPassword")
+  br
+  input(type="hidden", name="formType", value="vital")
+  input(type="submit" value="Save changes")
