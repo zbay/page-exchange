@@ -5,7 +5,6 @@ var home = require("./home.js"); home(app);
 var signup = require("./signup.js"); signup(app);
 var dashboard = require("./dashboard.js"); dashboard(app);
 var settings = require("./settings.js"); settings(app);
-//var httpErrors = require("./httpErrors.js"); httpErrors(app);
-//poll doesn't show 404 on unknown ID. Fix that.
+var httpErrors = require("./httpErrors.js"); httpErrors(app);
 }
 module.exports = routers;
