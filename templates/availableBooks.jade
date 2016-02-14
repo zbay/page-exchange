@@ -1,6 +1,9 @@
 include ./partials/__header.jade
 include ./partials/__navbarLoggedIn.jade
 include ./partials/__jumbotron.jade
+include ./partials/__tradeNotification.jade
+include ./partials/__error.jade
+include ./partials/__success.jade
 
 h3 Books Available for Trade
 
@@ -17,4 +20,4 @@ table#bookTable
           td= book.description
           td
             a(href="/proposeTrade/" + book.id)
-            Send Trade Offer
+              Send Trade Offer

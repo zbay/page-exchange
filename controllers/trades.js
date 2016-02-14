@@ -22,4 +22,32 @@ app.get("/pendingTrades", requireLogin, function(req, res){
     });
     res.render("pendingTrades", pendingTrades);
 });
+app.get("/proposeTrade/:id", requireLogin, function(req, res){
+    req.session.successMessage = null;
+    req.session.errorMessage = null;
+    var bookReceivedID = req.params.id;
+        var myBooks = [];
+    var bookStream = Book.find({"ownerID": req.session.sessionID}).limit(500).stream();
+    bookStream.on("data", function(doc){
+            myBooks.push({"title":doc.title, "author":doc.author, "description":doc.description, "id":doc._id});
+    });
+    bookStream.on("end", function(){
+        Book.findOne({"_id": bookReceivedID}, function(err, doc){
+        res.render("proposeTrade", {books:myBooks, receivedBookData: doc}); 
+    });
+    });
+});
+app.post("/initiateTrade", requireLogin, function(req, res){
+    var tradeData = {"bookReceived": req.body.bookReceived, "bookGiven": req.body.bookGiven, "tradePartner": req.body.tradePartner};
+    User.update({"_id": req.session.sessionID}, {$addToSet: {"pendingTrades": tradeData}}, function(err, doc){
+        if(doc && !err){
+           req.session.successMessage = "Trade proposed!";
+           res.send({});
+        }
+        else{
+            req.session.errorMessage = "The trade failed. Please try again.";
+            res.send({});
+        }
+    });
+});
 }

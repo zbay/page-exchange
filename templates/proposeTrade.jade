@@ -1,7 +1,9 @@
-//In this file: display like myBooks except there's a box describing the book you're trading for, and instead of X's there's a 'Trade this book' button
 include ./partials/__header.jade
 include ./partials/__navbarLoggedIn.jade
 include ./partials/__jumbotron.jade
+div#tradeThis You're attempting a trade to acquire " #{receivedBookData.title} " by #{receivedBookData.author}. What will you give up in return?
+input(style="display:none", name="receivedBookID", value=receivedBookData._id)
+input(style="display:none", name="partnerID", value=receivedBookData.ownerID)
 
 h3 Pick a book to trade
 
@@ -17,7 +19,6 @@ table#bookTable
           td= book.author
           td= book.description
           td
-            button.tradeBookButton(name="tradeID" value=book.id) Trade This Book
+            button.tradeBookButton(name="givenBookID" value=book.id) Trade This Book
 
 script(src="/static/js/ajax/finishTradeOffer.js")
-/

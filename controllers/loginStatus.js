@@ -8,7 +8,7 @@ module.exports = function(app) {
       res.redirect("dashboard");
     }
     else{
-      res.render("login");
+      res.render("login", {success: req.session.successMessage});
     }
     });
     
