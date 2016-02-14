@@ -1,3 +1,4 @@
+"use strict";
 module.exports = function(app) {
 
 var mongoose = require('mongoose');
@@ -10,17 +11,22 @@ app.get("/pendingTrades", requireLogin, function(req, res){
     var pendingTrades = [];
     
     User.findOne({"_id": req.session.sessionID}, function(err, myData){
-        for(var i = 0; i < myData.pendingTrades.length; i++){
+        for(let i = 0; i < myData.pendingTrades.length; i++){
             User.findOne({"_id": myData.pendingTrades.tradePartner}, function(err, traderData) {
                 Book.findOne({"_id": myData.pendingTrades.bookGiven}, function(err, givenBookData){
                     Book.findOne({"_id": myData.pendingTrades.bookReceived}, function(err, receivedBookData){
-                         pendingTrades.push({"tradePartnerData": traderData, "givenBookData": givenBookData, "receivedBookData": receivedBookData});
+                        if(!myData.pendingTrades[i].accepted){
+                          pendingTrades.push({"tradePartnerData": traderData, "givenBookData": givenBookData, "receivedBookData": receivedBookData,
+                         "canAccept": req.session.sessionID != myData.PendingTrades[i].proposedBy, "tradeID": myData.pendingTrades[i]._id});   
+                        }
+                         if(i == myData.pendingTrades.length-1){
+                             res.render("pendingTrades", {"pendingTrades": pendingTrades});
+                         }
                     });
                 });
             });
         }
     });
-    res.render("pendingTrades", pendingTrades);
 });
 app.get("/proposeTrade/:id", requireLogin, function(req, res){
     req.session.successMessage = null;
@@ -49,5 +55,11 @@ app.post("/initiateTrade", requireLogin, function(req, res){
             res.send({});
         }
     });
+});
+app.post("/acceptTrade", requireLogin, function(req, res) {
+
+});
+app.post("/declineTrade", requireLogin, function(req, res) {
+    
 });
 }
