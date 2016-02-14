@@ -7,7 +7,7 @@ var requireLogin = require(process.cwd() + "/controllers/controlHelpers/requireL
      
 app.get("/myBooks", requireLogin, function(req, res){
     var myBooks = [];
-    var bookStream = Book.find({"ownerID": req.session.sessionID}).stream();
+    var bookStream = Book.find({"ownerID": req.session.sessionID}).limit(500).stream();
     bookStream.on("data", function(doc){
             myBooks.push({"title":doc.title, "author":doc.author, "description":doc.description, "id":doc._id});
     });

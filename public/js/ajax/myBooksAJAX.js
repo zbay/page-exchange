@@ -1,5 +1,4 @@
 $(document.body).on("click", ".deleteBookButton", function(){
-    console.log("BUTTON CLICKKKEKD");
     var thisButton = $(this);
     $.ajax({
     url: "/deleteBook",
