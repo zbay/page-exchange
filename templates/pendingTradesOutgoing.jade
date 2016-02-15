@@ -10,11 +10,12 @@ table#tradeTable
       th Book Received
       th Trade Partner
       th Revoke?
-    each pendingTrade in pendingTrades
-        tr 
-            td "#{pendingTrade.givenBookData.title}" by #{pendingTrade.givenBookData.author}
-            td "#{pendingTrade.receivedBookData.title}" by #{pendingTrade.receivedBookData.author}
-            td #{pendingTrade.tradePartnerData.name}, #{pendingTrade.tradePartnerData.email}
-            td
-                button.revokeButton(name="tradeID" value=pendingTrade.tradeID) Revoke
+    if pendingTrades
+        each pendingTrade in pendingTrades
+            tr 
+                td "#{pendingTrade.givenBookData.title}" by #{pendingTrade.givenBookData.author}
+                td "#{pendingTrade.receivedBookData.title}" by #{pendingTrade.receivedBookData.author}
+                td #{pendingTrade.tradePartnerData.name}, #{pendingTrade.tradePartnerData.email}
+                td
+                    button.revokeButton(name="tradeID" value=pendingTrade.tradeID) Revoke
 script(src="/static/js/ajax/outgoingTradeDecision.js")

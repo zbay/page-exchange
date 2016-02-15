@@ -1,5 +1,5 @@
 "use strict";
-//to-do: make trade success and error messages work. Make a page to view accepted trades, with contact info.
+//to-do: make trade success and error messages work. Make a page to view accepted trades, with contact info. And make the incoming/outgoing page actually render
 module.exports = function(app) {
 
 var mongoose = require('mongoose');
@@ -12,21 +12,28 @@ app.get("/pendingTrades/incoming", requireLogin, function(req, res){
     
     var pendingTrades = [];
     
-    var tradeStream = Trade.find({"proposeeID": req.session.sessionID}).stream();
-    tradeStream.on("data", function(tradeDoc){
-        if(!tradeDoc.accepted){
-        User.findOne({"_id": tradeDoc.proposerID}, function(err, traderData){
-            Book.findOne({"_id": tradeDoc.proposeeBookID}, function(err, givenBookData){
-                    Book.findOne({"_id": tradeDoc.proposerBookID}, function(err, receivedBookData){
+    Trade.find({"proposeeID": req.session.sessionID}, function(err, tradeDocs){
+        for(let i = 0; i < tradeDocs.length; i++){
+        User.findOne({"_id": tradeDocs[i].proposerID}, function(err, traderData){
+            Book.findOne({"_id": tradeDocs[i].proposeeBookID}, function(err, givenBookData){
+                    Book.findOne({"_id": tradeDocs[i].proposerBookID}, function(err, receivedBookData){
                          pendingTrades.push({"tradePartnerData": traderData, "givenBookData": givenBookData, "receivedBookData": receivedBookData,
-                         "tradeID": tradeDoc._id});   
+                         "tradeID": tradeDocs[i]._id});   
+                         
+                        if(!tradeDocs[i].accepted){
+                         pendingTrades.push({"tradePartnerData": traderData, "givenBookData": givenBookData, "receivedBookData": receivedBookData,
+                         "tradeID": tradeDocs[i]._id});   
+                        }
+                        if(i == tradeDocs.length-1){
+                            res.render("pendingTradesIncoming", {"pendingTrades": pendingTrades});
+                        }
                 });
             });
         });
-    }
-    });
-    tradeStream.on("end", function(){
-        res.render("pendingTradesIncoming", {"pendingTrades": pendingTrades});
+        }
+        if(err || !tradeDocs.length){
+            res.render("pendingTradesIncoming");
+        }
     });
 });
 
@@ -34,21 +41,25 @@ app.get("/pendingTrades/outgoing", requireLogin, function(req, res){
     
     var pendingTrades = [];
     
-    var tradeStream = Trade.find({"proposerID": req.session.sessionID}).stream();
-    tradeStream.on("data", function(tradeDoc){
-        if(!tradeDoc.accepted){
-        User.findOne({"_id": tradeDoc.proposeeID}, function(err, traderData){
-            Book.findOne({"_id": tradeDoc.proposerBookID}, function(err, givenBookData){
-                    Book.findOne({"_id": tradeDoc.proposeeBookID}, function(err, receivedBookData){
+    Trade.find({"proposerID": req.session.sessionID}, function(err, tradeDocs){
+        for(let i = 0; i < tradeDocs.length; i++){
+            User.findOne({"_id": tradeDocs[i].proposeeID}, function(err, traderData){
+            //console.log("traderData: " + traderData);
+                Book.findOne({"_id": tradeDocs[i].proposerBookID}, function(err, givenBookData){
+                //console.log("givenBookData: " + givenBookData);
+                    Book.findOne({"_id": tradeDocs[i].proposeeBookID}, function(err, receivedBookData){
+                        //console.log("receivedBookData: " + receivedBookData);
+                        if(!tradeDocs[i].accepted){
                          pendingTrades.push({"tradePartnerData": traderData, "givenBookData": givenBookData, "receivedBookData": receivedBookData,
-                         "tradeID": tradeDoc._id});   
+                         "tradeID": tradeDocs[i]._id});   
+                        }
+                        if(i == tradeDocs.length-1){
+                            res.render("pendingTradesOutgoing", {"pendingTrades": pendingTrades});
+                        }
                 });
             });
         });
-    }
-    });
-    tradeStream.on("end", function(){
-        res.render("pendingTradesOutgoing", {"pendingTrades": pendingTrades});
+    }   
     });
 });
 

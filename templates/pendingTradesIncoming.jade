@@ -10,12 +10,13 @@ table#tradeTable
       th Book Received
       th Trade Partner
       th Accept?
-    each pendingTrade in pendingTrades
-        tr 
-            td "#{pendingTrade.givenBookData.title}" by #{pendingTrade.givenBookData.author}
-            td "#{pendingTrade.receivedBookData.title}" by #{pendingTrade.receivedBookData.author}
-            td #{pendingTrade.tradePartnerData.name}, #{pendingTrade.tradePartnerData.email}
-            td
-                button.acceptButton(name="tradeID" value=pendingTrade.tradeID) Accept
-                button.declineButton(name="tradeID" value=pendingTrade.tradeID) Decline
+    if pendingTrades
+        each pendingTrade in pendingTrades
+            tr 
+                td "#{pendingTrade.givenBookData.title}" by #{pendingTrade.givenBookData.author}
+                td "#{pendingTrade.receivedBookData.title}" by #{pendingTrade.receivedBookData.author}
+                td #{pendingTrade.tradePartnerData.name}, #{pendingTrade.tradePartnerData.email}
+                td
+                    button.acceptButton(name="tradeID" value=pendingTrade.tradeID) Accept
+                    button.declineButton(name="tradeID" value=pendingTrade.tradeID) Decline
 script(src="/static/js/ajax/incomingTradeDecision.js")
