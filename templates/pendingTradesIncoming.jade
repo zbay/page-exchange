@@ -19,6 +19,8 @@ table#tradeTable
                 td
                     button.acceptButton(name="tradeID" value=pendingTrade.tradeID) Accept
                     button.declineButton(name="tradeID" value=pendingTrade.tradeID) Decline
+    else
+        div#nothin Nobody's sent you a trade offer lately. Post better books!
 div#outgoingLink 
-    a(href="./outgoing") Click here to view your other trades, that you've proposed or accepted.
+    a(href="./outgoing") Click here to view your other pending trades, that you've proposed.
 script(src="/static/js/ajax/incomingTradeDecision.js")

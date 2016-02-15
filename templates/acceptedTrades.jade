@@ -1,0 +1,22 @@
+include ./partials/__header.jade
+include ./partials/__navbarLoggedIn.jade
+include ./partials/__jumbotron.jade
+
+h3 Accepted Trades
+table#acceptedTradeTable
+    tr
+      th Book Given
+      th Book Received
+      th Trade Partner
+      th Location
+      th Email
+    if acceptedTrades.length
+        each tradeDeets in acceptedTrades
+            tr
+                td= tradeDeets.toGive
+                td= tradeDeets.toReceive
+                td= tradeDeets.trader.name
+                td= tradeDeets.trader.location
+                td= tradeDeets.trader.email
+        else
+            div#nothin There are no accepted trades in your profile's history.

@@ -18,4 +18,6 @@ table#tradeTable
                 td #{pendingTrade.tradePartnerData.name}, #{pendingTrade.tradePartnerData.email}
                 td
                     button.revokeButton(name="tradeID" value=pendingTrade.tradeID) Revoke
+     else
+        div#nothin There are no open trade offers at this time. Go propose some!
 script(src="/static/js/ajax/outgoingTradeDecision.js")
