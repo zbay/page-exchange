@@ -1,8 +1,7 @@
 module.exports = function(app) {
 app.get('/', function(req, res){
         if(!req.session.isLoggedIn){
-          console.log('rendering index!');
-          res.render("index");
+          res.render("dashboard", {loggedIn: false});
         }
         else{
          res.render("dashboard", {loggedIn: true});

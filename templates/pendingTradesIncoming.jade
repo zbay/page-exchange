@@ -10,7 +10,7 @@ table#tradeTable
       th Book Received
       th Trade Partner
       th Accept?
-    if pendingTrades
+    if pendingTrades.length
         each pendingTrade in pendingTrades
             tr 
                 td "#{pendingTrade.givenBookData.title}" by #{pendingTrade.givenBookData.author}
@@ -21,6 +21,6 @@ table#tradeTable
                     button.declineButton(name="tradeID" value=pendingTrade.tradeID) Decline
     else
         div#nothin Nobody's sent you a trade offer lately. Post better books!
-div#outgoingLink 
+div#outgoingLink.reverseBox
     a(href="./outgoing") Click here to view your other pending trades, that you've proposed.
 script(src="/static/js/ajax/incomingTradeDecision.js")

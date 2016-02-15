@@ -1,7 +1,7 @@
 include ./partials/__header.jade
 include ./partials/__navbarLoggedIn.jade
 include ./partials/__jumbotron.jade
-div#tradeThis You're attempting a trade to acquire " #{receivedBookData.title} " by #{receivedBookData.author}. What will you give up in return?
+div#tradeThis You're attempting a trade to acquire "#{receivedBookData.title}" by #{receivedBookData.author}. What will you give up in return?
 input(style="display:none", name="receivedBookID", value=receivedBookData._id)
 input(style="display:none", name="partnerID", value=receivedBookData.ownerID)
 
@@ -12,7 +12,7 @@ table#bookTable
       th Title
       th Author
       th Description
-      th Delete?
+      th Offer?
     each book in books
         tr
           td= book.title

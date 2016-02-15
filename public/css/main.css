@@ -1,0 +1,91 @@
+.jumbotron{
+    color:white;
+    background-color:navy;
+    border:4px solid #7BAFD4;
+    border-radius: 10px;
+    text-align:center;
+    max-width:95%;
+    margin-left:auto;
+    margin-right:auto;
+}
+h1, h2, h3, h4, h5, h6{
+    text-align: center;
+}
+input{
+    color:black;
+}
+button{
+    color:	#7BAFD4;
+    background-color: white;
+    border-radius: 5px;
+}
+input[type="submit"]{
+    color:	#7BAFD4;
+    background-color: white;
+    border-radius: 5px;
+}
+table{
+    text-align: center;
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom:2%;
+    min-width:50%;
+    border: 5px solid #7BAFD4;
+}
+#error, #success, #httpError, #errorDelete, #successDelete{
+    font-weight:bold;
+    font-size:170%;
+    text-align:center;
+    margin-left:auto;
+    margin-right:auto;
+}
+#tradeThis{
+    font-weight:bold;
+}
+#ingoingLink, #outgoingLink, #nothin, #tradeThis{
+    text-align:center;
+}
+.form{
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+}
+body{
+    background-color:lightgray;
+    padding-bottom:3%;
+}
+th{
+    text-align:center;
+}
+td{
+    padding:5px;
+}
+th, td{
+    border: 2px solid #7BAFD4;
+}
+#signupform, #loginform, #howToUse, #steps{
+    margin-right:auto;
+    margin-left:auto;
+    text-align:center;
+}
+#steps{
+    font-size:30px;
+    list-style-position:inside;
+}
+#howToHeader{
+    font-size:40px;
+}
+.reverseBox{
+    background-color:#7BAFD4;
+    color:navy;
+    border: 3px solid white;
+    padding:5px;
+    border-radius:10px;
+    max-width:95%;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+}
+.reverseBox a{
+    color: navy;
+}

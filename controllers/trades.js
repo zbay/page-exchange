@@ -83,22 +83,14 @@ app.get("/acceptedTrades", requireLogin, function(req, res){
     var acceptedTrades = [];
     Trade.find({$or: [{"proposerID": req.session.sessionID}, {"proposeeID": req.session.sessionID}]}, function(err, tradeData){
         for(let i = 0; i < tradeData.length; i++){
-            //console.log("tradeData: " + tradeData);
             User.findOne({"_id": (tradeData[i].proposerID == req.session.sessionID ? tradeData[i].proposeeID : tradeData[i].proposerID)}, function(err, partnerData){
-                console.log("partnerData: " + partnerData);
-                //console.log("i: " + i);
-                //console.log("err: " + err);
                 Book.findOne({"_id": (tradeData[i].proposerID == req.session.sessionID ? tradeData[i].proposeeBookID : tradeData[i].proposerBookID)}, function(err, receivedBookData){
-                    //console.log("receivedBookData: " + receivedBookData);
                     Book.findOne({"_id": (tradeData[i].proposerID == req.session.sessionID ? tradeData[i].proposerBookID : tradeData[i].proposeeBookID)}, function(err, givenBookData){
-                       // console.log("givenBookData: " + givenBookData);
                         if(tradeData[i].accepted){
-                           // console.log("givenBookData: " + givenBookData[0]);
                         acceptedTrades.push({"toGive": "\"" + givenBookData.title + "\"" + " by " + givenBookData.author, "toReceive":
                             "\"" + receivedBookData.title + "\"" + " by " + receivedBookData.author, "trader": {"name": partnerData.name, 
                             "email": partnerData.email, "location": partnerData.city + ", " + partnerData.region}
                         });
-                        console.log(acceptedTrades);
                         }
                         if(i == tradeData.length-1){
                             res.render("acceptedTrades", {"acceptedTrades": acceptedTrades});
@@ -108,8 +100,6 @@ app.get("/acceptedTrades", requireLogin, function(req, res){
             });
         }
         if(err || !tradeData.length){
-            console.log("err: " + err);
-            console.log("tradeData: " + tradeData);
             res.render("acceptedTrades");
         }
     });

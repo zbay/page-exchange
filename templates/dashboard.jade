@@ -1,10 +1,15 @@
 include ./partials/__header.jade
-include ./partials/__navbarLoggedIn.jade
+include ./partials/__navbar.jade
 include ./partials/__jumbotron.jade
+h3#howToHeader How To Use This Site
 div#howToUse
     ol#steps
-        li List some books you are willing to trade.
-        li Search books listed by other users.
-        li Propose trades.
-        li Execute trades and acquire good reads!
-        li Note: all trades must be carried out by users. We'll help you get in touch via email to discuss in-person trades or mailing arrangements.
+        li 
+            a(href="./myBooks") List some books you're willing to trade.
+        li 
+            a(href="./availableBooks") Browse the books listed by other users.
+        li 
+            a(href="./availableBooks") Propose trades of one book for another.
+        li 
+            a(href="./acceptedTrades") Execute trades and acquire good reads!
+div.reverseBox Note: We do not enforce trades. All trades must be carried out by users. We'll help you get in touch via email address, to discuss in-person trades, mailing arrangements, or cancellations.

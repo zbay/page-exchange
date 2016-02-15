@@ -2,7 +2,7 @@ $("#profileButton").on("click", function(e){
     $.ajax({
     url: "/settingsOptional",
     method: "POST",
-    data: {"city": $("[name=city]").val(), "region": $("[name=region]").val(), "phone": $("[name=phone]").val()},
+    data: {"city": $("[name=city]").val(), "region": $("[name=region]").val()},
     success: function(returned){
         if(!returned.error){
             $("#error").html("");

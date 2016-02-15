@@ -2,6 +2,8 @@ include ./partials/__header.jade
 include ./partials/__navbarLoggedIn.jade
 include ./partials/__jumbotron.jade
 include ./partials/__tradeNotification.jade
+include ./partials/__successAJAX.jade
+include ./partials/__errorAJAX.jade
 
 h3 My Books
 
@@ -21,21 +23,22 @@ table#bookTable
 
 h3 Add a book to your catalog
 
-label
-  | Title
+div.form
+  label
+    | Title
+    br
+    input(type='text', name='title')
   br
-  input(type='text', name='title')
-br
-label
-  | Author
+  label
+    | Author
+    br
+    input(type='text', name='author')
+    br
   br
-  input(type='text', name='author')
+  label
+    | Description (optional)
+    br
+    input(type='text' name='description')
   br
-br
-label
-  | Description (optional)
-  br
-  input(type='text' name='description')
-br
-input#addBookButton(type='submit', value='Add Book')
+  input#addBookButton.reverseBox(type='submit', value='Add Book')
 script(src="/static/js/ajax/myBooksAJAX.js")

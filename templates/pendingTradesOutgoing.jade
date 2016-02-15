@@ -10,7 +10,7 @@ table#tradeTable
       th Book Received
       th Trade Partner
       th Revoke?
-    if pendingTrades
+    if pendingTrades.length
         each pendingTrade in pendingTrades
             tr 
                 td "#{pendingTrade.givenBookData.title}" by #{pendingTrade.givenBookData.author}
@@ -19,5 +19,5 @@ table#tradeTable
                 td
                     button.revokeButton(name="tradeID" value=pendingTrade.tradeID) Revoke
      else
-        div#nothin There are no open trade offers at this time. Go propose some!
+        div#nothin.reverseBox There are no open trade offers at this time. Go propose some!
 script(src="/static/js/ajax/outgoingTradeDecision.js")

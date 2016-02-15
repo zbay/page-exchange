@@ -7,13 +7,13 @@ module.exports = function(app) {
     app.get("/settings", requireLogin, function(req, res){
             User.findOne({"_id": req.session.sessionID}, function(err, doc){
                 if(doc && !err){
-                     res.render("settings", {userPhone: doc.phone, userCity: doc.city, userRegion: doc.region, userEmail: doc.email});
+                     res.render("settings", {userCity: doc.city, userRegion: doc.region, userEmail: doc.email});
                 }
             });
     });
     
     app.post("/settingsOptional", function(req, res){ //profile info changes
-            User.update({"_id": req.session.sessionID}, {$set: {"city": req.body.city, "region": req.body.region, "phone": req.body.phone}}, function(err, doc){
+            User.update({"_id": req.session.sessionID}, {$set: {"city": req.body.city, "region": req.body.region}}, function(err, doc){
             if(doc && !err){
                 res.send({"success": "Profile updated!"});
             }
