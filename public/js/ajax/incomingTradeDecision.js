@@ -1,7 +1,7 @@
 $(document.body).on("click", ".acceptButton", function(){
     var thisButton = $(this);
     $.ajax({
-        url: "./acceptTrade",
+        url: "../acceptTrade",
         method: "POST",
         data: {"tradeID": thisButton.val()},
     }).done(function(){
@@ -12,7 +12,7 @@ $(document.body).on("click", ".acceptButton", function(){
 $(document.body).on("click", ".declineButton", function(){
     var thisButton = $(this);
     $.ajax({
-        url: "./declineTrade",
+        url: "../declineTrade",
         method: "POST",
         data: {"tradeID": thisButton.val()},
     }).done(function(){

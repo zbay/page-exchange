@@ -23,6 +23,8 @@ module.exports = function(app) {
   		if(bcrypt.compareSync(password, hashedPassword)){
   		    req.session.isLoggedIn = true;
   			req.session.sessionID = doc._id;
+  			req.session.successMessage = null;
+  			req.session.errorMessage = null;
   		res.redirect("/dashboard");
   		}
   		else{

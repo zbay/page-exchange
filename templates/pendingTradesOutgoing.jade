@@ -1,0 +1,20 @@
+include ./partials/__header.jade
+include ./partials/__navbarLoggedIn.jade
+include ./partials/__jumbotron.jade
+
+h3 Pending Trades Offered by Me
+
+table#tradeTable
+    tr
+      th Book Given
+      th Book Received
+      th Trade Partner
+      th Revoke?
+    each pendingTrade in pendingTrades
+        tr 
+            td "#{pendingTrade.givenBookData.title}" by #{pendingTrade.givenBookData.author}
+            td "#{pendingTrade.receivedBookData.title}" by #{pendingTrade.receivedBookData.author}
+            td #{pendingTrade.tradePartnerData.name}, #{pendingTrade.tradePartnerData.email}
+            td
+                button.revokeButton(name="tradeID" value=pendingTrade.tradeID) Revoke
+script(src="/static/js/ajax/outgoingTradeDecision.js")

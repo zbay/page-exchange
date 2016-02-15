@@ -2,7 +2,7 @@ include ./partials/__header.jade
 include ./partials/__navbarLoggedIn.jade
 include ./partials/__jumbotron.jade
 
-h3 Pending Trades
+h3 Pending Trades Offered to Me
 
 table#tradeTable
     tr
@@ -18,4 +18,4 @@ table#tradeTable
             td
                 button.acceptButton(name="tradeID" value=pendingTrade.tradeID) Accept
                 button.declineButton(name="tradeID" value=pendingTrade.tradeID) Decline
-script(src="/static/js/ajax/tradeDecision.js")
+script(src="/static/js/ajax/incomingTradeDecision.js")

@@ -1,33 +1,57 @@
 "use strict";
+//to-do: make trade success and error messages work. Make a page to view accepted trades, with contact info.
 module.exports = function(app) {
 
 var mongoose = require('mongoose');
 var Book = require(process.cwd() + "/dbmodels/book.js"); Book = mongoose.model("Book");
 var User = require(process.cwd() + "/dbmodels/user.js"); User = mongoose.model("User");
+var Trade = require(process.cwd() + "/dbmodels/trade.js"); Trade = mongoose.model("Trade");
 var requireLogin = require(process.cwd() + "/controllers/controlHelpers/requireLogin.js");
     
-app.get("/pendingTrades", requireLogin, function(req, res){
+app.get("/pendingTrades/incoming", requireLogin, function(req, res){
     
     var pendingTrades = [];
     
-    User.findOne({"_id": req.session.sessionID}, function(err, myData){
-        for(let i = 0; i < myData.pendingTrades.length; i++){
-            User.findOne({"_id": myData.pendingTrades.tradePartner}, function(err, traderData) {
-                Book.findOne({"_id": myData.pendingTrades.bookGiven}, function(err, givenBookData){
-                    Book.findOne({"_id": myData.pendingTrades.bookReceived}, function(err, receivedBookData){
-                        if(!myData.pendingTrades[i].accepted){
-                          pendingTrades.push({"tradePartnerData": traderData, "givenBookData": givenBookData, "receivedBookData": receivedBookData,
-                         "canAccept": req.session.sessionID != myData.PendingTrades[i].proposedBy, "tradeID": myData.pendingTrades[i]._id});   
-                        }
-                         if(i == myData.pendingTrades.length-1){
-                             res.render("pendingTrades", {"pendingTrades": pendingTrades});
-                         }
-                    });
+    var tradeStream = Trade.find({"proposeeID": req.session.sessionID}).stream();
+    tradeStream.on("data", function(tradeDoc){
+        if(!tradeDoc.accepted){
+        User.findOne({"_id": tradeDoc.proposerID}, function(err, traderData){
+            Book.findOne({"_id": tradeDoc.proposeeBookID}, function(err, givenBookData){
+                    Book.findOne({"_id": tradeDoc.proposerBookID}, function(err, receivedBookData){
+                         pendingTrades.push({"tradePartnerData": traderData, "givenBookData": givenBookData, "receivedBookData": receivedBookData,
+                         "tradeID": tradeDoc._id});   
                 });
             });
-        }
+        });
+    }
+    });
+    tradeStream.on("end", function(){
+        res.render("pendingTradesIncoming", {"pendingTrades": pendingTrades});
     });
 });
+
+app.get("/pendingTrades/outgoing", requireLogin, function(req, res){
+    
+    var pendingTrades = [];
+    
+    var tradeStream = Trade.find({"proposerID": req.session.sessionID}).stream();
+    tradeStream.on("data", function(tradeDoc){
+        if(!tradeDoc.accepted){
+        User.findOne({"_id": tradeDoc.proposeeID}, function(err, traderData){
+            Book.findOne({"_id": tradeDoc.proposerBookID}, function(err, givenBookData){
+                    Book.findOne({"_id": tradeDoc.proposeeBookID}, function(err, receivedBookData){
+                         pendingTrades.push({"tradePartnerData": traderData, "givenBookData": givenBookData, "receivedBookData": receivedBookData,
+                         "tradeID": tradeDoc._id});   
+                });
+            });
+        });
+    }
+    });
+    tradeStream.on("end", function(){
+        res.render("pendingTradesOutgoing", {"pendingTrades": pendingTrades});
+    });
+});
+
 app.get("/proposeTrade/:id", requireLogin, function(req, res){
     req.session.successMessage = null;
     req.session.errorMessage = null;
@@ -43,23 +67,27 @@ app.get("/proposeTrade/:id", requireLogin, function(req, res){
     });
     });
 });
+
 app.post("/initiateTrade", requireLogin, function(req, res){
-    var tradeData = {"bookReceived": req.body.bookReceived, "bookGiven": req.body.bookGiven, "tradePartner": req.body.tradePartner};
-    User.update({"_id": req.session.sessionID}, {$addToSet: {"pendingTrades": tradeData}}, function(err, doc){
-        if(doc && !err){
-           req.session.successMessage = "Trade proposed!";
-           res.send({});
-        }
-        else{
-            req.session.errorMessage = "The trade failed. Please try again.";
-            res.send({});
-        }
+    var newTrade = new Trade({"proposerID": req.session.sessionID, "proposeeBookID": req.body.bookReceived, "proposerBookID": req.body.bookGiven, "proposeeID": req.body.tradePartner});
+    newTrade.save(function(err, message){
+          req.session.successMessage = "Trade proposed!";
+          res.send({});
     });
 });
 app.post("/acceptTrade", requireLogin, function(req, res) {
-
+    Trade.update({"_id": req.body.tradeID}, {$set: {"accepted": true}}, function(){
+        res.send({"success": "Trade accepted!"}); 
+    });
 });
 app.post("/declineTrade", requireLogin, function(req, res) {
-    
+    Trade.remove({"_id": req.body.tradeID}, function(){
+        res.send({"success": "Trade declined."});
+    });
+});
+app.post("/revokeTrade", requireLogin, function(req, res){
+    Trade.remove({"_id": req.body.tradeID}, function(){
+        res.send({"success": "Trade offer revoked."});
+    });
 });
 }

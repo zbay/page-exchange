@@ -2,7 +2,7 @@
 module.exports = function(app) {
 var mongoose = require('mongoose');
 var Book = require(process.cwd() + "/dbmodels/book.js"); Book = mongoose.model("Book");
-var User = require(process.cwd() + "/dbmodels/book.js"); User = mongoose.model("User");
+var Trade = require(process.cwd() + "/dbmodels/trade.js"); Trade = mongoose.model("Trade");
 
 var requireLogin = require(process.cwd() + "/controllers/controlHelpers/requireLogin.js");
      
@@ -13,9 +13,14 @@ app.get("/myBooks", requireLogin, function(req, res){
             myBooks.push({"title":doc.title, "author":doc.author, "description":doc.description, "id":doc._id});
     });
     bookStream.on("end", function(){
-         User.findOne({"_id": req.session.sessionID}, function(err, data){
-        res.render("myBooks", {"books":myBooks, "trades": data.pendingTrades.length, "success": req.session.successMessage, "error": req.session.errorMessage});
-         });
+        var tradeOffers = 0;
+        var tradeStream = Trade.find({"proposeeID": req.session.sessionID}).stream();
+        tradeStream.on("data", function(){
+            tradeOffers++;
+        });
+        tradeStream.on("end", function(){
+             res.render("myBooks", {"books":myBooks, "trades": tradeOffers, "success": req.session.successMessage, "error": req.session.errorMessage});
+        });
     });
     });
     
@@ -48,10 +53,14 @@ app.get("/availableBooks", requireLogin, function(req, res){
         allBooksButMine.push(book);
     });
     otherBooks.on("end", function(){
-        User.findOne({"_id": req.session.sessionID}, function(err, data){
-            res.render("availableBooks", {"books": allBooksButMine, "trades": data.pendingTrades.length}); 
+        var tradeOffers = 0;
+        var tradeStream = Trade.find({"proposeeID": req.session.sessionID}).stream();
+        tradeStream.on("data", function(){
+            tradeOffers++;
+        });
+        tradeStream.on("end", function(){
+             res.render("availableBooks", {"books":allBooksButMine, "trades": tradeOffers, "success": req.session.successMessage, "error": req.session.errorMessage});
         });
     });
     });
-
 }
