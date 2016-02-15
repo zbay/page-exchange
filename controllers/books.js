@@ -14,7 +14,7 @@ app.get("/myBooks", requireLogin, function(req, res){
     });
     bookStream.on("end", function(){
         var tradeOffers = 0;
-        Trade.find({"proposeeID": req.session.sessionID}, function(err, tradeDocs){
+        Trade.find({"proposeeID": req.session.sessionID, "accepted": false}, function(err, tradeDocs){
            res.render("myBooks", {"books":myBooks, "trades": tradeDocs.length, "success": req.session.successMessage, "error": req.session.errorMessage});
         });
     });
@@ -49,7 +49,7 @@ app.get("/availableBooks", requireLogin, function(req, res){
         allBooksButMine.push(book);
     });
     otherBooks.on("end", function(){
-        Trade.find({"proposeeID": req.session.sessionID}, function(err, tradeDocs){
+        Trade.find({"proposeeID": req.session.sessionID, "accepted": false}, function(err, tradeDocs){
            res.render("availableBooks", {"books":allBooksButMine, "trades": tradeDocs.length, "success": req.session.successMessage, "error": req.session.errorMessage});
         });
     });

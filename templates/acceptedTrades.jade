@@ -10,7 +10,7 @@ table#acceptedTradeTable
       th Trade Partner
       th Location
       th Email
-    if acceptedTrades.length
+    if acceptedTrades
         each tradeDeets in acceptedTrades
             tr
                 td= tradeDeets.toGive
