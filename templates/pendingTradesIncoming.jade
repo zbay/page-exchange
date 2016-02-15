@@ -19,4 +19,6 @@ table#tradeTable
                 td
                     button.acceptButton(name="tradeID" value=pendingTrade.tradeID) Accept
                     button.declineButton(name="tradeID" value=pendingTrade.tradeID) Decline
+div#outgoingLink 
+    a(href="./outgoing") Click here to view your other trades, that you've proposed or accepted.
 script(src="/static/js/ajax/incomingTradeDecision.js")

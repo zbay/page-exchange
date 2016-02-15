@@ -14,12 +14,8 @@ app.get("/myBooks", requireLogin, function(req, res){
     });
     bookStream.on("end", function(){
         var tradeOffers = 0;
-        var tradeStream = Trade.find({"proposeeID": req.session.sessionID}).stream();
-        tradeStream.on("data", function(){
-            tradeOffers++;
-        });
-        tradeStream.on("end", function(){
-             res.render("myBooks", {"books":myBooks, "trades": tradeOffers, "success": req.session.successMessage, "error": req.session.errorMessage});
+        Trade.find({"proposeeID": req.session.sessionID}, function(err, tradeDocs){
+           res.render("myBooks", {"books":myBooks, "trades": tradeDocs.length, "success": req.session.successMessage, "error": req.session.errorMessage});
         });
     });
     });
@@ -53,13 +49,8 @@ app.get("/availableBooks", requireLogin, function(req, res){
         allBooksButMine.push(book);
     });
     otherBooks.on("end", function(){
-        var tradeOffers = 0;
-        var tradeStream = Trade.find({"proposeeID": req.session.sessionID}).stream();
-        tradeStream.on("data", function(){
-            tradeOffers++;
-        });
-        tradeStream.on("end", function(){
-             res.render("availableBooks", {"books":allBooksButMine, "trades": tradeOffers, "success": req.session.successMessage, "error": req.session.errorMessage});
+        Trade.find({"proposeeID": req.session.sessionID}, function(err, tradeDocs){
+           res.render("availableBooks", {"books":allBooksButMine, "trades": tradeDocs.length, "success": req.session.successMessage, "error": req.session.errorMessage});
         });
     });
     });

@@ -17,9 +17,6 @@ app.get("/pendingTrades/incoming", requireLogin, function(req, res){
         User.findOne({"_id": tradeDocs[i].proposerID}, function(err, traderData){
             Book.findOne({"_id": tradeDocs[i].proposeeBookID}, function(err, givenBookData){
                     Book.findOne({"_id": tradeDocs[i].proposerBookID}, function(err, receivedBookData){
-                         pendingTrades.push({"tradePartnerData": traderData, "givenBookData": givenBookData, "receivedBookData": receivedBookData,
-                         "tradeID": tradeDocs[i]._id});   
-                         
                         if(!tradeDocs[i].accepted){
                          pendingTrades.push({"tradePartnerData": traderData, "givenBookData": givenBookData, "receivedBookData": receivedBookData,
                          "tradeID": tradeDocs[i]._id});   
@@ -60,6 +57,9 @@ app.get("/pendingTrades/outgoing", requireLogin, function(req, res){
             });
         });
     }   
+    if(err || !tradeDocs.length){
+            res.render("pendingTradesOutgoing");
+        }
     });
 });
 
