@@ -50,6 +50,7 @@ app.get("/availableBooks", requireLogin, function(req, res){
     });
     otherBooks.on("end", function(){
         Trade.find({"proposeeID": req.session.sessionID, "accepted": false}, function(err, tradeDocs){
+            console.log("successMessage: " + req.session.successMessage);
            res.render("availableBooks", {"books":allBooksButMine, "trades": tradeDocs.length, "success": req.session.successMessage, "error": req.session.errorMessage});
         });
     });

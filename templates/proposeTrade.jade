@@ -1,9 +1,7 @@
 include ./partials/__header.jade
 include ./partials/__navbarLoggedIn.jade
 include ./partials/__jumbotron.jade
-div#tradeThis You're attempting a trade to acquire "#{receivedBookData.title}" by #{receivedBookData.author}. What will you give up in return?
-input(style="display:none", name="receivedBookID", value=receivedBookData._id)
-input(style="display:none", name="partnerID", value=receivedBookData.ownerID)
+div#tradeThis.reverseBox You're attempting a trade to acquire "#{receivedBookData.title}" by #{receivedBookData.author}. What will you give up in return?
 
 h3 Pick a book to trade
 
@@ -19,6 +17,6 @@ table#bookTable
           td= book.author
           td= book.description
           td
-            button.tradeBookButton(name="givenBookID" value=book.id) Trade This Book
-
-script(src="/static/js/ajax/finishTradeOffer.js")
+            form(method="POST")
+              input(style="display:none", name="partnerID", value=receivedBookData.ownerID)
+              button.tradeBookButton(name="bookGiven", value=book.id) Trade This Book

@@ -9,12 +9,12 @@ div.form
   label
     | City
   br
-  input(type='text', name='city' value=userCity)
+  input(type='text', name='city', value=userCity)
   br
   label
     | State or Province or Country
   br
-  input(type='text', name='region' value=userRegion)
+  input(type='text', name='region', value=userRegion)
   br
   br
   input#profileButton(type='submit', value='Save changes')
@@ -24,23 +24,23 @@ div.form
   label
     | Name
   br
-  input(type="text" name="name" value=userName)
+  input(type="text", name="name", value=userName)
   br
   label
     | Email
   br
-  input(type="email" name="email" value=userEmail)
+  input(type="email" name="email", value=userEmail)
   br
   label
     | Current Password
   br
-  input(type="password" name="oldPassword")
+  input(type="password", name="oldPassword")
   br
   label
     | New Password (or confirm the current one)
   br
-  input(type="password" name="newPassword")
+  input(type="password", name="newPassword")
   br
   br
-  input#newPasswordButton(type="submit" value="Save changes")
+  input#newPasswordButton(type="submit", value="Save changes")
 script(src="/static/js/ajax/settingsAJAX.js")

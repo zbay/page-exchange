@@ -4,7 +4,10 @@ $(document.body).on("click", ".revokeButton", function(){
         url: "../revokeTrade",
         method: "POST",
         data: {"tradeID": thisButton.val()},
-    }).done(function(){
+        success: function(returned){
+             $("#success").html(returned.success);
+        }
+    }).done(function(returned){
         thisButton.parent().parent().remove();
     });
 });

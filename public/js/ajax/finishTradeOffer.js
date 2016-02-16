@@ -5,5 +5,6 @@ $(document.body).on("click", ".tradeBookButton", function(){
         data: {"bookReceived": $("[name=receivedBookID]").val(), "bookGiven": $("[name=givenBookID]").val(), "tradePartner": $("[name=partnerID]").val()},
     }).done(function(){
         window.location = "../availableBooks";
+        location.reload(true);
     });
 });

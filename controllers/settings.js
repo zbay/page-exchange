@@ -5,6 +5,8 @@ var requireLogin = require(process.cwd() + "/controllers/controlHelpers/requireL
 
 module.exports = function(app) {
     app.get("/settings", requireLogin, function(req, res){
+        req.session.successMessage = null;
+        req.session.errorMessage = null;
             User.findOne({"_id": req.session.sessionID}, function(err, doc){
                 if(doc && !err){
                      res.render("settings", {userCity: doc.city, userRegion: doc.region, userEmail: doc.email, userName: doc.name});

@@ -63,7 +63,7 @@ td{
 th, td{
     border: 2px solid #7BAFD4;
 }
-#signupform, #loginform, #howToUse, #steps{
+#signupform, #loginform, #howToUse, #steps, #tradeNotification{
     margin-right:auto;
     margin-left:auto;
     text-align:center;
@@ -85,6 +85,7 @@ th, td{
     margin-left:auto;
     margin-right:auto;
     text-align:center;
+    font-weight:bold;
 }
 .reverseBox a{
     color: navy;

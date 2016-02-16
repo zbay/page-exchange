@@ -9,7 +9,8 @@ var Trade = require(process.cwd() + "/dbmodels/trade.js"); Trade = mongoose.mode
 var requireLogin = require(process.cwd() + "/controllers/controlHelpers/requireLogin.js");
     
 app.get("/pendingTrades/incoming", requireLogin, function(req, res){
-    
+    req.session.successMessage = null;
+    req.session.errorMessag = null;
     var pendingTrades = [];
     
     Trade.find({"proposeeID": req.session.sessionID}, function(err, tradeDocs){
@@ -36,6 +37,8 @@ app.get("/pendingTrades/incoming", requireLogin, function(req, res){
 
 app.get("/pendingTrades/outgoing", requireLogin, function(req, res){
     
+    req.session.successMessage = null;
+    req.session.errorMessag = null;
     var pendingTrades = [];
     
     Trade.find({"proposerID": req.session.sessionID}, function(err, tradeDocs){
@@ -80,6 +83,8 @@ app.get("/proposeTrade/:id", requireLogin, function(req, res){
 });
 
 app.get("/acceptedTrades", requireLogin, function(req, res){
+    req.session.successMessage = null;
+    req.session.errorMessag = null;
     var acceptedTrades = [];
     Trade.find({$or: [{"proposerID": req.session.sessionID}, {"proposeeID": req.session.sessionID}]}, function(err, tradeData){
         for(let i = 0; i < tradeData.length; i++){
@@ -105,11 +110,12 @@ app.get("/acceptedTrades", requireLogin, function(req, res){
     });
 });
 
-app.post("/initiateTrade", requireLogin, function(req, res){
-    var newTrade = new Trade({"proposerID": req.session.sessionID, "proposeeBookID": req.body.bookReceived, "proposerBookID": req.body.bookGiven, "proposeeID": req.body.tradePartner});
+app.post("/proposeTrade/:id", requireLogin, function(req, res){
+    var newTrade = new Trade({"proposerID": req.session.sessionID, "proposeeBookID": req.params.id, "proposerBookID": req.body.bookGiven, "proposeeID": req.body.partnerID});
     newTrade.save(function(err, message){
           req.session.successMessage = "Trade proposed!";
-          res.send({});
+          req.session.errorMessage = null;
+          res.redirect("/availableBooks");
     });
 });
 app.post("/acceptTrade", requireLogin, function(req, res) {
