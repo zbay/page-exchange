@@ -4,28 +4,28 @@ nav.navbar.navbar-inverse
         a.navbar-brand(href='https://github.com/zbay') Zbay Industries
       ul.nav.navbar-nav.navbar-left
         li
-          a(href='https://page-exchange-zbay.c9users.io') Home
+          a(href='https://page-exchange.herokuapp.com') Home
       ul.nav.navbar-nav.navbar-right
         if !loggedIn
             li
-                a(href="https://page-exchange-zbay.c9users.io/signup") Sign Up
+                a(href="https://page-exchange.herokuapp.com/signup") Sign Up
             li
-                a(href="https://page-exchange-zbay.c9users.io/login") Login
+                a(href="https://page-exchange.herokuapp.com/login") Login
         else
             li
-                a(href="https://page-exchange-zbay.c9users.io/availableBooks") All Books
+                a(href="https://page-exchange.herokuapp.com/availableBooks") All Books
             li
-                a(href="https://page-exchange-zbay.c9users.io/myBooks") My Books
+                a(href="https://page-exchange.herokuapp.com/myBooks") My Books
             li.dropdown
                 a(href="#" data-toggle="dropdown") My Trades
                     | 
                     span.caret
                 ul.dropdown-menu
                     li
-                        a(href="https://page-exchange-zbay.c9users.io/pendingTrades/outgoing") Proposed By Me
-                        a(href="https://page-exchange-zbay.c9users.io/pendingTrades/incoming") Proposed To Me
-                        a(href="https://page-exchange-zbay.c9users.io/acceptedTrades") Accepted Trades
+                        a(href="https://page-exchange.herokuapp.com/pendingTrades/outgoing") Proposed By Me
+                        a(href="https://page-exchange.herokuapp.com/pendingTrades/incoming") Proposed To Me
+                        a(href="https://page-exchange.herokuapp.com/acceptedTrades") Accepted Trades
             li
-                a(href="https://page-exchange-zbay.c9users.io/settings") Settings
+                a(href="https://page-exchange.herokuapp.com/settings") Settings
             li
-                a(href="https://page-exchange-zbay.c9users.io/logout") Log Out
+                a(href="https://page-exchange.herokuapp.com/logout") Log Out

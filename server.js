@@ -11,8 +11,8 @@ var routes = require('./controllers');
 var session = require('client-sessions');
 var dotenv = require('dotenv').load();
 
-mongoose.connect('mongodb://localhost:27017/page-exchange', function (err, db)
-//mongoose.connect(process.env.MONGOLAB_URI, function (err, db)
+//mongoose.connect('mongodb://localhost:27017/page-exchange', function (err, db)
+mongoose.connect(process.env.MONGOLAB_URI, function (err, db)
 {
  if (err) {
       throw new Error('Database failed to connect!');
