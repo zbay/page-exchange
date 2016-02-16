@@ -35,7 +35,7 @@ module.exports = function(app) {
   		var userID = doc._id;
   		User.update({"_id": req.session.sessionID}, {"$set": {"password": bcrypt.hashSync(newPassword, 10), "email": newEmail, "name": name}}, function(err, data){
   			if(!err){
-  					res.send({"success": "Email/password info successfully updated!"});
+  					res.send({"success": "Email/password/name info successfully updated!"});
   			}
   			else{
   				res.send({"error": "Error. That  email address is associated with another account. Use a different one."});
