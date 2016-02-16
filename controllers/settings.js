@@ -7,7 +7,7 @@ module.exports = function(app) {
     app.get("/settings", requireLogin, function(req, res){
             User.findOne({"_id": req.session.sessionID}, function(err, doc){
                 if(doc && !err){
-                     res.render("settings", {userCity: doc.city, userRegion: doc.region, userEmail: doc.email});
+                     res.render("settings", {userCity: doc.city, userRegion: doc.region, userEmail: doc.email, userName: doc.name});
                 }
             });
     });
@@ -26,13 +26,14 @@ module.exports = function(app) {
                 var newEmail = req.body.email;
 		        var oldPassword = req.body.oldPassword;
 		        var newPassword = req.body.newPassword;
+		        var name = req.body.name;
 		        var emailRegex = /@/;
                 if(newEmail && oldPassword && newPassword){
                     		User.findOne({"_id": req.session.sessionID}).lean().exec(function(err, doc){
 			var hashedPassword = doc.password;
   	if(doc && !err && newEmail.match(emailRegex) && newPassword.length > 6 && bcrypt.compareSync(oldPassword, hashedPassword)){
   		var userID = doc._id;
-  		User.update({"_id": req.session.sessionID}, {"$set": {"password": bcrypt.hashSync(newPassword, 10), "email": newEmail}}, function(err, data){
+  		User.update({"_id": req.session.sessionID}, {"$set": {"password": bcrypt.hashSync(newPassword, 10), "email": newEmail, "name": name}}, function(err, data){
   			if(!err){
   					res.send({"success": "Email/password info successfully updated!"});
   			}

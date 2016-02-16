@@ -25,7 +25,8 @@ $("#newPasswordButton").on("click", function(e){
     $.ajax({
     url: "/settingsVital",
     method: "POST",
-    data: {"oldPassword": $("[name=oldPassword]").val(), "newPassword": $("[name=newPassword]").val(), "email": $("[name=email]").val()},
+    data: {"oldPassword": $("[name=oldPassword]").val(), "newPassword": $("[name=newPassword]").val(), "email": $("[name=email]").val(), 
+    "name": $("[name=name]").val()},
     success: function(returned){
         if(!returned.error){
             $("#error").html("");
